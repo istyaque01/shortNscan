@@ -7,9 +7,9 @@ import "react-toastify/dist/ReactToastify.css";
 
 /**
  * This version is tuned for **mobile‑first** responsiveness.
- * ➜ Anything below 350 px keeps small defaults.
- * ➜ At **min‑width 350 px** we scale up paddings, fonts, etc.
- *    We use Tailwind arbitrary breakpoints like `min-[350px]:text-4xl`.
+ * ➜ Anything below 280px keeps minimal defaults.
+ * ➜ At **min-[280px]** we scale up slightly for small mobiles.
+ * ➜ At **min-[350px]** we scale up further for larger mobiles.
  * ➜ Higher Tailwind breakpoints (sm, md, lg) remain unchanged.
  */
 const HomeTabs = () => {
@@ -31,16 +31,13 @@ const HomeTabs = () => {
   const urlRegex =
     /^(https?:\/\/)(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)$/i;
 
-  /**
-   * Initialize & update QR every time deps change
-   */
   useEffect(() => {
     if (activeTab !== "qr") return;
 
     if (!qrCode.current) {
       qrCode.current = new QRCodeStyling({
-        width: 240,
-        height: 240,
+        width: 200, // Reduced for smaller screens
+        height: 200,
         data: "",
         image: "",
         dotsOptions: { type: dotStyle, color: dotColor },
@@ -59,7 +56,6 @@ const HomeTabs = () => {
     setQrReady(!!input);
   }, [input, dotStyle, dotColor, bgColor, logoDataURL, activeTab]);
 
-  /** UTILITIES */
   const clearAll = () => {
     setInput("");
     setShortUrl("");
@@ -76,7 +72,6 @@ const HomeTabs = () => {
     }
   };
 
-  /** API */
   const handleShorten = async () => {
     if (!input || !urlRegex.test(input)) {
       toast.warn("Enter a valid URL");
@@ -118,19 +113,15 @@ const HomeTabs = () => {
 
   return (
     <>
-      {/* Hero Banner */}
-      <div className="bg-[url('./assets/new-logo.png')] bg-cover bg-center min-h-screen flex flex-col items-center gap-6 min-[350px]:gap-8 px-3 min-[350px]:px-5 md:px-8 py-10 min-[350px]:py-12 pt-24">
-        {/* Title */}
-        <h1 className="text-stone-200 text-2xl min-[350px]:text-3xl sm:text-5xl font-bold text-center leading-tight">
+      <div className="bg-[url('./assets/new-logo.png')] bg-cover bg-center min-h-screen flex flex-col items-center gap-4 min-[280px]:gap-5 min-[350px]:gap-8 px-2 min-[280px]:px-3 min-[350px]:px-5 md:px-8 py-8 min-[280px]:py-10 min-[350px]:py-12 pt-20 min-[280px]:pt-22 min-[350px]:pt-24">
+        <h1 className="text-stone-200 text-xl min-[280px]:text-2xl min-[350px]:text-3xl sm:text-5xl font-bold text-center leading-tight">
           Shorten • Style • Share
         </h1>
-        {/* Subtitle */}
-        <p className="text-gray-400 text-center max-w-lg min-[350px]:max-w-xl px-1">
+        <p className="text-gray-400 text-center max-w-xs min-[280px]:max-w-sm min-[350px]:max-w-lg px-1">
           Create sleek short URLs or on‑brand QR codes in seconds.
         </p>
 
-        {/* Tab Buttons */}
-        <div className="flex gap-2 min-[350px]:gap-4 bg-stone-800 p-1 rounded-full shadow-lg">
+        <div className="flex gap-1 min-[280px]:gap-2 min-[350px]:gap-4 bg-stone-800 p-1 min-[280px]:p-1.5 rounded-full shadow-lg">
           {[
             { id: "shortener", label: "Link Shortener" },
             { id: "qr", label: "QR‑Code Generator" },
@@ -138,7 +129,7 @@ const HomeTabs = () => {
             <button
               key={id}
               onClick={() => handleTabClick(id)}
-              className={`px-4 min-[350px]:px-6 py-2 text-xs min-[350px]:text-sm font-semibold rounded-full ${
+              className={`px-3 min-[280px]:px-4 min-[350px]:px-6 py-1.5 min-[280px]:py-2 min-[350px]:py-2 text-xs min-[350px]:text-sm font-semibold rounded-full ${
                 activeTab === id
                   ? "bg-orange-500 text-white"
                   : "text-stone-300 hover:text-white"
@@ -149,38 +140,38 @@ const HomeTabs = () => {
           ))}
         </div>
 
-        {/* Input */}
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder={
-            activeTab === "shortener" ? "Paste a valid URL" : "Text or URL for QR"
+            activeTab === "shortener"
+              ? "Paste a valid URL"
+              : "Text or URL for QR"
           }
-          className="w-full max-w-sm min-[350px]:max-w-md sm:max-w-2xl bg-stone-200 border rounded-xl py-3 min-[350px]:py-4 px-4 min-[350px]:px-6 focus:outline-orange-400"
+          className="w-full max-w-xs min-[280px]:max-w-sm min-[350px]:max-w-md sm:max-w-2xl bg-stone-200 border rounded-xl py-2 min-[280px]:py-2.5 min-[350px]:py-4 px-3 min-[280px]:px-4 min-[350px]:px-6 focus:outline-orange-400 text-sm min-[280px]:text-base"
         />
 
-        {/* --- SHORTENER TAB --- */}
         {activeTab === "shortener" && (
           <>
-            {/* Shorten Button */}
             <button
               onClick={handleShorten}
               disabled={!input}
-              className={`$${"!input ? 'bg-orange-300' : 'bg-orange-500 hover:bg-orange-400'"} text-white py-3 min-[350px]:py-4 px-6 min-[350px]:px-8 rounded-2xl`}
+              className={`${
+                !input ? "bg-orange-300" : "bg-orange-500 hover:bg-orange-400"
+              } text-white py-2 min-[280px]:py-2.5 min-[350px]:py-4 px-4 min-[280px]:px-5 min-[350px]:px-8 rounded-2xl text-sm min-[280px]:text-base`}
             >
               Shorten It
             </button>
 
             {isLoading && <span className="loader" />}
 
-            {/* Result */}
             {shortUrl && (
-              <div className="bg-stone-200 p-3 min-[350px]:p-4 rounded-lg text-green-600 flex flex-col gap-3 min-[350px]:gap-4 w-full max-w-sm min-[350px]:max-w-md sm:max-w-2xl">
-                <p className="break-words text-center text-sm min-[350px]:text-base">
+              <div className="bg-stone-200 p-2 min-[280px]:p-3 min-[350px]:p-4 rounded-lg text-green-600 flex flex-col gap-2 min-[280px]:gap-3 min-[350px]:gap-4 w-full max-w-xs min-[280px]:max-w-sm min-[350px]:max-w-md sm:max-w-2xl">
+                <p className="break-words text-center text-xs min-[280px]:text-sm min-[350px]:text-base">
                   {shortUrl}
                 </p>
                 <button
-                  className="bg-cyan-500 hover:bg-cyan-400 text-white py-2 px-4 rounded-xl mx-auto text-sm min-[350px]:text-base"
+                  className="bg-cyan-500 hover:bg-cyan-400 text-white py-1.5 min-[280px]:py-2 px-3 min-[280px]:px-4 rounded-xl mx-auto text-xs min-[280px]:text-sm min-[350px]:text-base"
                   onClick={() => handleCopy(shortUrl)}
                 >
                   Copy
@@ -190,18 +181,15 @@ const HomeTabs = () => {
           </>
         )}
 
-        {/* --- QR TAB --- */}
         {activeTab === "qr" && (
           <>
-            {/* Controls */}
-            <div className="flex flex-wrap gap-3 min-[350px]:gap-4 justify-center items-center mt-4">
-              {/* Shape */}
-              <label className="flex items-center gap-1 min-[350px]:gap-2 text-xs min-[350px]:text-sm text-stone-300">
+            <div className="flex flex-wrap gap-2 min-[280px]:gap-3 min-[350px]:gap-4 justify-center items-center mt-3 min-[280px]:mt-4">
+              <label className="flex items-center gap-1 min-[280px]:gap-1.5 min-[350px]:gap-2 text-xs min-[350px]:text-sm text-stone-300">
                 Shape:
                 <select
                   value={dotStyle}
                   onChange={(e) => setDotStyle(e.target.value)}
-                  className="text-gray-900 bg-white rounded-md px-2 py-1"
+                  className="text-gray-900 bg-white rounded-md px-1.5 py-1 text-xs min-[280px]:text-sm"
                 >
                   <option value="square">Square</option>
                   <option value="dots">Dots</option>
@@ -210,33 +198,33 @@ const HomeTabs = () => {
                   <option value="classy-rounded">Classy Rounded</option>
                 </select>
               </label>
-              {/* Dot Color */}
-              <label className="flex items-center gap-1 min-[350px]:gap-2 text-xs min-[350px]:text-sm text-stone-300">
-                Dot&nbsp;Color:
+              <label className="flex items-center gap-1 min-[280px]:gap-1.5 min-[350px]:gap-2 text-xs min-[350px]:text-sm text-stone-300">
+                Dot Color:
                 <input
                   type="color"
                   value={dotColor}
                   onChange={(e) => setDotColor(e.target.value)}
-                  className="cursor-pointer h-8 w-8 min-[350px]:h-10 min-[350px]:w-10 border-0 rounded-full"
+                  className="cursor-pointer h-6 w-6 min-[280px]:h-7 min-[350px]:h-10 min-[280px]:w-7 min-[350px]:w-10 border-0 rounded-full"
                 />
               </label>
-              {/* BG Color */}
-              <label className="flex items-center gap-1 min-[350px]:gap-2 text-xs min-[350px]:text-sm text-stone-300">
-                BG&nbsp;Color:
+              <label className="flex items-center gap-1 min-[280px]:gap-1.5 min-[350px]:gap-2 text-xs min-[350px]:text-sm text-stone-300">
+                BG Color:
                 <input
                   type="color"
                   value={bgColor}
                   onChange={(e) => setBgColor(e.target.value)}
-                  className="cursor-pointer h-8 w-8 min-[350px]:h-10 min-[350px]:w-10 border-0 rounded-full"
+                  className="cursor-pointer h-6 w-6 min-[280px]:h-7 min-[350px]:h-10 min-[280px]:w-7 min-[350px]:w-10 border-0 rounded-full"
                 />
               </label>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-3 min-[350px]:gap-4 mt-6 items-center">
+            <div className="flex flex-col md:flex-row gap-2 min-[280px]:gap-3 min-[350px]:gap-4 mt-4 min-[280px]:mt-5 items-center">
               <button
                 onClick={handleDownloadQr}
                 disabled={!qrReady}
-                className={`$${"!qrReady ? 'bg-stone-500' : 'bg-cyan-500 hover:bg-cyan-400'"} text-white py-3 min-[350px]:py-4 px-6 min-[350px]:px-8 rounded-2xl`}
+                className={`${
+                  !qrReady ? "bg-stone-500" : "bg-cyan-500 hover:bg-cyan-400"
+                } text-white py-2 min-[280px]:py-2.5 min-[350px]:py-4 px-4 min-[280px]:px-5 min-[350px]:px-8 rounded-2xl text-sm min-[280px]:text-base`}
               >
                 Download PNG
               </button>
@@ -244,25 +232,29 @@ const HomeTabs = () => {
 
             <div
               ref={qrRef}
-              className={`${qrReady ? "block" : "hidden"} mt-4 min-[350px]:mt-6 bg-white p-4 min-[350px]:p-6 rounded-xl shadow-lg`}
+              className={`${
+                qrReady ? "block" : "hidden"
+              } mt-3 min-[280px]:mt-4 min-[350px]:mt-6 bg-white p-2 min-[280px]:p-3 min-[350px]:p-6 rounded-xl shadow-lg`}
             />
           </>
         )}
 
-        {/* --- Free Plan Notice --- */}
         {!token && (
-          <div className="mt-8 min-[350px]:mt-10 text-center text-stone-300 flex flex-col gap-3 min-[350px]:gap-4">
-            <p className="text-lg min-[350px]:text-xl font-bold">
+          <div className="mt-6 min-[280px]:mt-7 min-[350px]:mt-10 text-center text-stone-300 flex flex-col gap-2 min-[280px]:gap-3 min-[350px]:gap-4">
+            <p className="text-base min-[280px]:text-lg min-[350px]:text-xl font-bold">
               Sign up for free – plan includes:
             </p>
-            <div className="flex flex-col md:flex-row gap-2 min-[350px]:gap-4 mx-auto text-xs min-[350px]:text-sm">
+            <div className="flex flex-col md:flex-row gap-1 min-[280px]:gap-2 min-[350px]:gap-4 mx-auto text-xs min-[350px]:text-sm">
               {[
                 "5 short links / month",
                 "3 custom links / month",
                 "3 styled QR codes / month",
                 "Unlimited link clicks",
               ].map((txt) => (
-                <div key={txt} className="flex items-center gap-1 min-[350px]:gap-2">
+                <div
+                  key={txt}
+                  className="flex items-center gap-1 min-[280px]:gap-1.5 min-[350px]:gap-2"
+                >
                   <span className="text-orange-500">
                     <HiBadgeCheck />
                   </span>
@@ -274,7 +266,6 @@ const HomeTabs = () => {
         )}
       </div>
 
-      {/* Toasts */}
       <ToastContainer
         position="top-center"
         autoClose={3000}
