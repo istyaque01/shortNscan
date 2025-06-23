@@ -15,7 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 const HomeTabs = () => {
   const [activeTab, setActiveTab] = useState("shortener");
   const [input, setInput] = useState("");
-  const [shortUrl, setShortUrl] = state("");
+  const [shortUrl, setShortUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const qrRef = useRef(null);
