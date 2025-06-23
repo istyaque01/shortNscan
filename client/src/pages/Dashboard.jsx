@@ -7,11 +7,14 @@ const Dashboard = () => {
   const token = localStorage.getItem("token");
 
   const getAllUrl = async () => {
-    const res = await axios.get("http://localhost:8000/sNs/all", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await axios.get(
+      "https://shortnscan-backend.onrender.com/sNs/all",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     const data = res.data;
     setUrls(data.urls);
   };

@@ -26,7 +26,10 @@ const Login = () => {
     try {
       setLoading(true);
 
-      const res = await axios.post("http://localhost:8000/sNs/login", formData);
+      const res = await axios.post(
+        "https://shortnscan-backend.onrender.com/sNs/login",
+        formData
+      );
       const data = res.data;
 
       if (data.status === true) {

@@ -29,12 +29,15 @@ const Register = () => {
 
     try {
       setLoading(true);
-      const res = await axios.post("http://localhost:8000/sNs/signup", {
-        email: formData.email,
-        username: formData.username,
-        password: formData.password,
-        confirmpassword: formData.confirmpassword,
-      });
+      const res = await axios.post(
+        "https://shortnscan-backend.onrender.com/sNs/signup",
+        {
+          email: formData.email,
+          username: formData.username,
+          password: formData.password,
+          confirmpassword: formData.confirmpassword,
+        }
+      );
       toast.success("Signed Up");
     } catch (err) {
       console.log("Something went wrong, please try again.");
@@ -51,7 +54,10 @@ const Register = () => {
             Create your account
           </h3>
 
-          <form className="flex flex-col gap-2 max-w-sm mx-auto mt-6" onSubmit={handleSubmit}>
+          <form
+            className="flex flex-col gap-2 max-w-sm mx-auto mt-6"
+            onSubmit={handleSubmit}
+          >
             <div>
               <label htmlFor="email" className="block mb-2 text-sm font-medium">
                 Email
@@ -69,7 +75,7 @@ const Register = () => {
               />
             </div>
 
-            <div >
+            <div>
               <label
                 htmlFor="username"
                 className="block mb-2 text-sm font-medium"

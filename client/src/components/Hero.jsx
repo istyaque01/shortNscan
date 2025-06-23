@@ -73,7 +73,7 @@ const HomeTabs = () => {
     try {
       setIsLoading(true);
       const { data } = await axios.post(
-        "http://localhost:8000/sNs",
+        "https://shortnscan-backend.onrender.com/sNs",
         { url: input },
         { headers: { Authorization: `Bearer ${token}` } }
       );
