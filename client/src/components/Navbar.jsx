@@ -51,7 +51,6 @@ const Navbar = () => {
     navigate("/");
   };
 
-
   return (
     <nav className="bg-white dark:bg-gray-900 fixed w-full top-0 z-50">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
